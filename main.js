@@ -1,8 +1,13 @@
 var mainState = ( function () {
     
+    var group;
+
     var preload = function () {
 	// load sprite images:
-	// game.load.spritesheet('name', 'directory', sizex, sizey);	
+	// game.load.spritesheet('name', 'directory', sizex, sizey);
+	game.load.image('cube', 'assets/cube.png');
+        game.plugins.add(new Phaser.Plugin.Isometric(game));
+        game.physics.startSystem(Phaser.Plugin.Isometric.ISOARCADE);
     }
     
     var create = function () {
@@ -12,7 +17,9 @@ var mainState = ( function () {
 	// tiled image as background
         // game.add.tileSprite(0,0, width, height, image, 0);
 
-        game.stage.backgroundColor = "#5f5";
+        // game.stage.backgroundColor = "#5f5";
+	cube = game.add.isoSprite(10, 10, 5, 'cube',0,group);
+	// game.physics.isoArcade.enable(cube);
 
 	// create a sprite:
 	// var pepe = game.add.sprite(x, y, 'pepe');
@@ -26,6 +33,7 @@ var mainState = ( function () {
     }
     
     var update = function () {
+	// cube.body.velocity.x = 100;
     };
     
     return { preload : preload,
