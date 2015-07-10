@@ -1,0 +1,10 @@
+## Sublime stuff
+*.sublime-project
+*.sublime-workspace
+
+## Emacs
+*~
+
+## PhpStorm
+*.iml
+.idea/
