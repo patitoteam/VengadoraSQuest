@@ -1,0 +1,27 @@
+var mainState = ( function () {
+    
+    var preload = function () {
+        //game.load.image(name, dir); or spritesheet
+    }
+    
+    var create = function () {
+        // game.physics.startSystem(Phaser.Physics.ARCADE); or ninja, or p2
+        // game.add.tileSprite(0,0, width, height, image, 0)
+        // or game.stage.backgroundColor = "#rrggbb"
+    }
+    
+    var update = function () {
+	
+    };
+    
+    return { preload : preload,
+             create : create,
+             update : update };
+    
+})();
+
+var game = new Phaser.Game(width, height, Phaser.AUTO, 'div id');
+game.state.add('main', mainState);
+game.state.start('main');
+// width = width. accessible from game.world.width
+// height = height acccessible from game.world.height
