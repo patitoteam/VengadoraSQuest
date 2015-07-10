@@ -8,7 +8,7 @@ var mainState = ( function () {
 	game.load.image('cube', 'assets/cube.png');
         game.plugins.add(new Phaser.Plugin.Isometric(game));
         game.physics.startSystem(Phaser.Plugin.Isometric.ISOARCADE);
-    }
+    };
     
     var create = function () {
 	// start the physics engine
