@@ -48,6 +48,7 @@ BasicGame.Boot.prototype ={
     // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
     game.iso.anchor.setTo(0.5, 0.1);
     game.iso.projectionAngle = 0.52359878;
+    game.time.advancedTiming = true;
   },
 
   create: function () {
@@ -153,15 +154,15 @@ BasicGame.Boot.prototype ={
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
   },
-  render: function () {
-    game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
-    groundGroup.forEach(function (tile) {
-      game.debug.body(tile, 'rgba(255, 221, 235, 0.6)', false);
-    });
-    obstacleGroup.forEach(function (tile) {
-      game.debug.body(tile, 'rgba(189, 221, 235, 0.6)', false);
-    });
-  }
+  // render: function () {
+  //   game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
+  //   groundGroup.forEach(function (tile) {
+  //     game.debug.body(tile, 'rgba(255, 221, 235, 0.6)', false);
+  //   });
+  //   obstacleGroup.forEach(function (tile) {
+  //     game.debug.body(tile, 'rgba(189, 221, 235, 0.6)', false);
+  //   });
+  // }
 };
 
 game.state.add('Boot', BasicGame.Boot);
