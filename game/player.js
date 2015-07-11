@@ -12,11 +12,15 @@
       0,
       options.group || null
     );
+    this.onBombMounted = options.onBombMounted || null;
+    this.onExplosion = options.onExplosion || null;
     this.element.tint = options.tint || 0;
     this.element.anchor.set(0.5);
     // window.foobar = this.element;
     game.physics.isoArcade.enable(this.element);
     this.element.body.collideWorldBounds = true;
+    this.canLeaveBomb = true;
+    this.cursors = null;
   };
 
   Player.prototype = {
@@ -24,6 +28,11 @@
       return this.element;
     },
     move: function(cursors, speed) {
+      if(!this.cursors) {
+        this.cursors = cursors;
+        this.cursors.jump.onDown.add(fire.bind(this));
+      }
+
       if (cursors.up.isDown) {
         this.element.body.velocity.y = -speed;
       }
@@ -45,6 +54,28 @@
       }
     }
   };
+
+  function fire() {
+    if(this.canLeaveBomb) {
+      var player = this.element;
+      var x = player.isoPosition.x;
+      var y = player.isoPosition.y;
+      var row = Math.floor(x / 65);
+      var col = Math.floor(y / 65);
+
+      if(this.onBombMounted) {
+        this.onBombMounted({row:row, col:col});
+      }
+
+      this.canLeaveBomb = false;
+      setTimeout(function() {
+        if(this.onExplosion) {
+          this.onExplosion({x: x, y: y});
+        }
+        this.canLeaveBomb = true;
+      }.bind(this), 3000);
+    }
+  }
 
   window.Player = Player;
 }).call(document);

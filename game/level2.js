@@ -3,6 +3,7 @@
 
   var player;
   var obstacleGroup, groundGroup;
+  var theBomb;
 
   var map = [
     [10,1, 1, 1, 1, 1, 1,11],
@@ -10,9 +11,9 @@
     [2, 0, 0, 0, 0, 0, 0, 2],
     [2, 0, 0, 0, 0, 0, 0, 2],
     [2, 0, 0, 0, 0, 0, 0, 2],
-    [12,1, 1, 11, 0, 10, 1,2],
-    [12,1, 1, 2, 0, 2, 1,2],
-    [12,1, 1, 2, 0, 2, 1,2],
+    [12,1, 1,11, 0,10, 1, 2],
+    [12,1, 1, 2, 0, 2, 1, 2],
+    [12,1, 1, 2, 0, 2, 1, 2],
     [12,1, 1, 2, 0, 2, 1,13],
   ];
 
@@ -31,6 +32,8 @@
       game.load.image('wall11', 'assets/wall-l-right.png');
       game.load.image('wall12', 'assets/wall-l-left.png');
       game.load.image('wall13', 'assets/wall-l-bottom.png');
+      game.load.image('bomb', 'assets/bomb.png');
+      game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
 
       game.time.advancedTiming = true;
       game.plugins.add(new Phaser.Plugin.Isometric(game));
@@ -44,13 +47,15 @@
       game.physics.isoArcade.gravity.setTo(0, 0, -1000);
       groundGroup = game.add.group();
       obstacleGroup = game.add.group();
+      window.obstacleGroup = obstacleGroup;
       var floorTile, i, j;
-      for (var xt = 2048; xt > 0; xt -= 35) {
-        for (var yt = 2048; yt > 0; yt -= 35) {
+      for (var xt = 2048; xt > 0; xt -= 65) {
+        for (var yt = 2048; yt > 0; yt -= 65) {
           floorTile = game.add.isoSprite(xt, yt, 0, 'ground', 0, groundGroup);
           floorTile.anchor.set(0.5);
         }
       }
+
       var a1;
       for(i = 0; i < map.length; ++i) {
         for(j = 0; j < map[i].length; ++j) {
@@ -64,7 +69,9 @@
         }
       }
       player = new Player(this, {
-        x: 100, y: 100, z: 0, group: obstacleGroup, tint: 0x00ff00
+        x: 200, y: 200, z: 0, group: obstacleGroup, tint: 0x00ff00,
+        onBombMounted: onBombMounted.bind(this),
+        onExplosion: onExplosion.bind(this)
       });
 
       // Make the camera follow the player.
@@ -78,15 +85,49 @@
         Phaser.Keyboard.RIGHT,
         Phaser.Keyboard.UP,
         Phaser.Keyboard.DOWN,
-        Phaser.Keyboard.SPACEBAR
+        // Phaser.Keyboard.SPACEBAR
       ]);
+      this.cursors.jump = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+      this.robots = robotClass(this);
     },
     update: function() {
       var speed = 500;
       player.move(this.cursors, speed);
+
       game.physics.isoArcade.collide(obstacleGroup);
       game.iso.topologicalSort(obstacleGroup);
     },
     render: function() {}
   };
+
+
+  function onBombMounted(e) {
+    console.log('mounted');
+    theBomb = game.add.isoSprite(e.row*65, e.col*65, 0, 'bomb', 0, groundGroup);
+    theBomb.anchor.set(0.5);
+  }
+
+  function onExplosion(e) {
+    if(theBomb) {
+      console.log('boom!!');
+      theBomb.kill();
+      var killed = 0;
+      obstacleGroup.forEach(function(tile) {
+        if(tile.key === 'robot') {
+          var x1 = tile.isoPosition.x;
+          var y1 = tile.isoPosition.y;
+          var x2 = e.x; var y2 = e.y;
+
+          var dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+          if(dist <= 250) {
+            tile.kill();
+            killed++;
+          }
+          // }
+        }
+      });
+      console.log(killed);
+    }
+  }
 }).call(document);
