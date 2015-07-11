@@ -46,7 +46,7 @@
     game.load.image('bomb', 'assets/bomb.png');
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
-    game.load.spritesheet('kid', 'assets/kid.png', 130, 150);
+    game.load.spritesheet('kid', 'assets/girl.png', 130, 150);
 
     game.time.advancedTiming = true;
 
