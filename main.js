@@ -4,5 +4,5 @@
   game.state.add('Level1', BasicGame.Level1);
   game.state.add('Level2', BasicGame.Level2);
 
-  game.state.start('Level2');
+  game.state.start('Level2'); // :O
 }).call(document);
