@@ -120,6 +120,10 @@ BasicGame.Boot.prototype ={
     this.robots = robotClass(this);
   },
   update: function () {
+
+    // For show the position of the player ;)
+    //console.log(player.isoPosition.x + ' - ' + player.isoPosition.y);
+
     // Move the player at this speed.
     var speed = 500;
     player.move(this.cursors, speed);
