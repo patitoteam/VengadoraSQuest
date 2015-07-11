@@ -42,6 +42,10 @@ BasicGame.Boot.prototype ={
     game.load.image('wall5', 'assets/wall-t-py.png');
     game.load.image('wall6', 'assets/wall-t--x.png');
     game.load.image('wall7', 'assets/wall-tp-x.png');
+    game.load.image('wall10', 'assets/wall-l-top.png');
+    game.load.image('wall11', 'assets/wall-l-right.png');
+    game.load.image('wall12', 'assets/wall-l-left.png');
+    game.load.image('wall13', 'assets/wall-l-bottom.png');
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
 
