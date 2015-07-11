@@ -5,7 +5,8 @@
     groundGroup,
     obstacleGroup,
     player,
-    theBomb;
+    theBomb,
+    pip2;
 
   var map = [
     [10,1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1,11,],
@@ -30,6 +31,7 @@
 
   BasicGame.Level1.prototype ={
   preload: function () {
+    // single images
     game.load.image('cube_', 'assets/cube.png');
     game.load.image('ground', 'assets/floor.png');
     game.load.image('wall1', 'assets/wall-y.png');
@@ -48,6 +50,12 @@
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
     game.load.spritesheet('kid', 'assets/girl.png', 130, 150);
+    // sprites
+    game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
+    game.load.spritesheet('kid', 'assets/kid.png', 130, 150);
+    game.load.spritesheet('sonic-bomb', 'assets/sonic-bomb.png', 130, 65);
+    // audio
+    game.load.audio('pip2', ['assets/pip2.ogg']);
 
     game.time.advancedTiming = true;
 
@@ -71,6 +79,8 @@
   create: function () {
     // Background color.
     game.stage.background = 0xB91717;
+    // get explosion audio
+    pip2 = game.add.audio('pip2');
 
     // Physics.
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
@@ -175,14 +185,15 @@
     console.log('mounted');
     theBomb = game.add.isoSprite(e.row*65, e.col*65, 0, 'bomb', 0, groundGroup);
     theBomb.anchor.set(0.5);
+    pip2.play();
   }
 
   function onExplosion(e) {
     if(theBomb) {
       console.log('boom!!');
       theBomb.kill();
-      var killed = 0;
       obstacleGroup.forEach(function(tile) {
+        if(!tile) return;
         if(tile.key === 'robot') {
           var x1 = tile.isoPosition.x;
           var y1 = tile.isoPosition.y;
@@ -190,15 +201,10 @@
 
           var dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
           if(dist <= 250) {
-            tile.kill();
-            killed++;
-            tile.isoPosition.x = -100;
-            tile.isoPosition.y = -100;
+            tile.destroy();
           }
-          // }
         }
       });
-      console.log(killed);
     }
   }
 

@@ -107,7 +107,7 @@
           this.onExplosion({x: x, y: y});
         }
         this.canLeaveBomb = true;
-      }.bind(this), 3000);
+      }.bind(this), 2800);
     }
   }
 
