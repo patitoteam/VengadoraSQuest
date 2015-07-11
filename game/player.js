@@ -24,8 +24,8 @@
     this.cursors = null;
 
     this.element.anchor.set(0.5,0.5);
-    this.element.animations.add('stand', [0]);
-    this.element.animations.add('2-walk', [1,2,3,4,5,6], 6, true);
+    this.element.animations.add('stand', [15]);
+    this.element.animations.add('2-walk', [8,9,10,11,12,13], 6, true);
     this.element.animations.add('3-walk', [7,8,9,8], 6, true);
     this.element.animations.add('6-walk', [17, 18, 19, 20, 21], 6, true);
     this.element.animations.add('8-walk', [11, 12, 13, 14, 15, 16], 6, true);
