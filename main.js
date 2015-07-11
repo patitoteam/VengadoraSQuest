@@ -2,7 +2,6 @@ var game = new Phaser.Game(400,400, Phaser.AUTO, 'test', null, false, true);
 
 var SPEED = 500;
 
-
 var BasicGame = function (game) { };
 BasicGame.Boot = function (game) { };
 
@@ -59,7 +58,6 @@ BasicGame.Boot.prototype ={
 
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
-
 
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
 
