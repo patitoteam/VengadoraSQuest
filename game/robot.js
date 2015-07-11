@@ -26,7 +26,7 @@ var robotClass = function (level) {
 var spawnRobots = function () {
   var robot;
   for (var xx = 70; xx <= 140; xx += 70) {
-    for (var yy = 70; yy <= 140; yy += 70) {
+    for (var yy = 70; yy <= 70; yy += 70) {
       // Create a cube using the new game.add.isoSprite factory method at the specified position.
       // The last parameter is the group you want to add it to (just like game.add.sprite)
       //robot = game.add.isoSprite(xx, yy, 0, 'robot', 6, robotsGroup);
@@ -43,7 +43,8 @@ var spawnRobots = function () {
       robot.body.bounce.set(1, 1, 0.2);
 
       // Send the cubes off in random x and y directions! Wheee!
-      robot.body.velocity.setTo(game.rnd.integerInRange(-50, 50), game.rnd.integerInRange(-50, 50), 0);
+      robot.body.velocity.setTo(game.rnd.integerInRange(-150, 150), game.rnd.integerInRange(-150, 150), 0);
+      //robot.body.velocity.setTo(150, 150, 0);
     }
   }
 };
