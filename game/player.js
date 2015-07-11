@@ -13,13 +13,14 @@
       options.group || null
     );
     this.element.tint = options.tint || 0;
+    this.element.anchor.set(0.5);
+    // this.element.body.collideWorldBounds = true;
   };
 
   Player.prototype = {
     get: function() {
       return this.element;
     },
-
     move: function(cursors, speed) {
       if (cursors.up.isDown) {
         player.body.velocity.y = -speed;

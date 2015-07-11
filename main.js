@@ -11,17 +11,24 @@ var isoGroup,
   player;
 
 var map = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1,],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
+  [2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
 ];
 
 BasicGame.Boot.prototype ={
@@ -30,7 +37,7 @@ BasicGame.Boot.prototype ={
     game.load.image('ground', 'assets/floor.png');
     game.load.image('wall', 'assets/wall-y.png');
     game.load.image('wall2', 'assets/wall-x.png');
-    game.load.spritesheet('robot', 'assets/robot.png', 61, 80);
+    game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
 
     game.time.advancedTiming = true;
 
@@ -38,13 +45,12 @@ BasicGame.Boot.prototype ={
     game.plugins.add(new Phaser.Plugin.Isometric(game));
 
     // In order to have the camera move, we need to increase the size of our world bounds.
-    game.world.setBounds(0, 0, 2048, 1024);
+    game.world.setBounds(0, 0, 4096, 4096);
 
     // Start the IsoArcade physics system.
     game.physics.startSystem(Phaser.Plugin.Isometric.ISOARCADE);
 
     // In order to have the camera move, we need to increase the size of our world bounds.
-    game.world.setBounds(0, 0, 2048, 1024);
 
     // This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
     // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
@@ -66,8 +72,8 @@ BasicGame.Boot.prototype ={
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
 
     var floorTile, i, j;
-    for (var xt = 1024; xt > 0; xt -= 35) {
-      for (var yt = 1024; yt > 0; yt -= 35) {
+    for (var xt = 2048; xt > 0; xt -= 35) {
+      for (var yt = 2048; yt > 0; yt -= 35) {
         floorTile = game.add.isoSprite(xt, yt, 0, 'ground', 0, groundGroup);
         floorTile.anchor.set(0.5);
       }
@@ -92,22 +98,16 @@ BasicGame.Boot.prototype ={
       }
     }
 
-    // var a1;
-    // for(var i = 125; i >= 5; i-=40) {
-    //   a1 = game.add.isoSprite(i, 55, 0, 'wall', 0, obstacleGroup);
-    //   a1.anchor.set(0.5);
-    //   game.physics.isoArcade.enable(a1);
-    //   a1.body.collideWorldBounds = true;
-    //   a1.body.immovable = true;
-    // }
-
-
     // Create another object as our 'player', and set it up just like the obstacles above.
     player = game.add.isoSprite(80, 80, 0, 'cube_', 0, obstacleGroup);
     player.tint = 0x00ff00;
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
     player.body.collideWorldBounds = true;
+    // player = new Player(this, {
+    //   x: 80, y: 80, z: 0, group: obstacleGroup, tint: 0x00ff00
+    // });
+
 
     // Make the camera follow the player.
     game.camera.follow(player);
@@ -149,6 +149,8 @@ BasicGame.Boot.prototype ={
     else {
       player.body.velocity.x = 0;
     }
+
+    // player.get().move(this.cursors, speed);
 
     // Our collision and sorting code again.
     game.physics.isoArcade.collide(obstacleGroup);
