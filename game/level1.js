@@ -62,7 +62,6 @@
     // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
     game.iso.anchor.setTo(0.5, 0.1);
     game.iso.projectionAngle = 0.52359878;
-    game.time.advancedTiming = true;
   },
 
   create: function () {
@@ -75,8 +74,6 @@
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
     window.obstacleGroup = obstacleGroup;
-
-    game.physics.isoArcade.gravity.setTo(0, 0, -1000);
 
     var floorTile, i, j;
     for (var xt = 2048; xt > 0; xt -= 35) {
