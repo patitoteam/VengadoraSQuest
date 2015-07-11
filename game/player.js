@@ -14,7 +14,7 @@
     );
     this.onBombMounted = options.onBombMounted || null;
     this.onExplosion = options.onExplosion || null;
-    this.element.tint = options.tint || 0;
+    // this.element.tint = options.tint || 0;
 
     this.element.anchor.set(0.5);
     // window.foobar = this.element;
