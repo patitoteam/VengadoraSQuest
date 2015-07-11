@@ -1,4 +1,4 @@
-var game = new Phaser.Game(400,400, Phaser.AUTO, 'test', null, false, true);
+var game = new Phaser.Game(700,700, Phaser.AUTO, 'test', null, false, true);
 
 var SPEED = 500;
 
@@ -56,9 +56,6 @@ BasicGame.Boot.prototype ={
 
     // Physics.
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
-
-    // Sprites creation.
-    this.robot = robot(this);
 
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
@@ -123,7 +120,8 @@ BasicGame.Boot.prototype ={
       Phaser.Keyboard.SPACEBAR
     ]);
 
-    this.robot.bringToTop();
+    // Robots Creation
+    this.robots = robotClass(this);
   },
   update: function () {
     // Move the player at this speed.
