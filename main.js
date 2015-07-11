@@ -1,4 +1,4 @@
-var game = new Phaser.Game(700,700, Phaser.AUTO, 'test', null, false, true);
+var game = new Phaser.Game(400, 400, Phaser.AUTO, 'test', null, false, true);
 
 var SPEED = 500;
 
@@ -11,32 +11,38 @@ var isoGroup,
   player;
 
 var map = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+  [10,1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1,11,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0,10, 1, 1, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
-  [2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2,],
+  [3, 1, 1, 1, 1, 1,13, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0,12, 1, 4, 1, 1, 1, 5,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 1, 1, 1, 1, 1, 1,13, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,13, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
   [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [12,1, 1, 1, 1, 1, 1, 1, 1, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,13,],
 ];
 
 BasicGame.Boot.prototype ={
   preload: function () {
     game.load.image('cube_', 'assets/cube.png');
     game.load.image('ground', 'assets/floor.png');
-    game.load.image('wall', 'assets/wall-y.png');
+    game.load.image('wall1', 'assets/wall-y.png');
     game.load.image('wall2', 'assets/wall-x.png');
+    game.load.image('wall3', 'assets/wall-t--y.png');
+    game.load.image('wall4', 'assets/wall-t--x.png');
+    game.load.image('wall5', 'assets/wall-t-py.png');
+    game.load.image('wall6', 'assets/wall-t--x.png');
+    game.load.image('wall7', 'assets/wall-tp-x.png');
+
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
 
     game.time.advancedTiming = true;
@@ -82,14 +88,8 @@ BasicGame.Boot.prototype ={
     var a1;
     for(i = 0; i < map.length; ++i) {
       for(j = 0; j < map[i].length; ++j) {
-        if (map[i][j] === 1) {
-          a1 = game.add.isoSprite(j*65, i*65, 0, 'wall', 0, obstacleGroup);
-          a1.anchor.set(0.5);
-          game.physics.isoArcade.enable(a1);
-          a1.body.collideWorldBounds = true;
-          a1.body.immovable = true;
-        } else if (map[i][j] === 2) {
-          a1 = game.add.isoSprite(j*65, i*65, 0, 'wall2', 0, obstacleGroup);
+        if (map[i][j] !== 0) {
+          a1 = game.add.isoSprite(j*65, i*65, 0, 'wall' + map[i][j], 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
@@ -99,7 +99,7 @@ BasicGame.Boot.prototype ={
     }
 
     // Create another object as our 'player', and set it up just like the obstacles above.
-    player = game.add.isoSprite(80, 80, 0, 'cube_', 0, obstacleGroup);
+    player = game.add.isoSprite(830, 600, 0, 'cube_', 0, obstacleGroup);
     player.tint = 0x00ff00;
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
@@ -127,6 +127,10 @@ BasicGame.Boot.prototype ={
     this.robots = robotClass(this);
   },
   update: function () {
+
+    // For show the position of the player ;)
+    //console.log(player.isoPosition.x + ' - ' + player.isoPosition.y);
+
     // Move the player at this speed.
     var speed = 500;
 
