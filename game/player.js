@@ -64,7 +64,6 @@
       } else if (direction[0] === 1 && direction[1] === 0) {
         this.element.animations.play('9-walk');
         this.scale.set(-1,1,1);
-        console.log('ding!');
       }
 
       // computing unit vector of the direction...
