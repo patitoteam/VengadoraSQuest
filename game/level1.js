@@ -128,8 +128,14 @@
     // Our collision and sorting code again.
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
+
+    obstacleGroup.forEach( function (obstacle) {
+      if(obstacle.key == 'robot') {
+        animateRobots(obstacle);
+      }
+    });
   },
-  // render: function () {
+  render: function () {
   //   game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
   //   groundGroup.forEach(function (tile) {
   //     game.debug.body(tile, 'rgba(255, 221, 235, 0.6)', false);
@@ -137,7 +143,7 @@
   //   obstacleGroup.forEach(function (tile) {
   //     game.debug.body(tile, 'rgba(189, 221, 235, 0.6)', false);
   //   });
-  // }
+  }
 };
 
 }).call(document);
