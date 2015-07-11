@@ -1,7 +1,9 @@
 var game = new Phaser.Game(400,400, Phaser.AUTO, 'test', null, false, true);
 
-var BasicGame = function (game) { };
+var SPEED = 500;
 
+
+var BasicGame = function (game) { };
 BasicGame.Boot = function (game) { };
 
 var isoGroup,
@@ -10,40 +12,18 @@ var isoGroup,
   player;
 
 var map = [
-  [2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [2, 1, 1, 0, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-  [2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 3, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 1, 0, 1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 1, 1, 1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,],
 ];
 
 BasicGame.Boot.prototype ={
   preload: function () {
     game.load.image('cube_', 'assets/cube.png');
     game.load.image('ground', 'assets/ground_tile.png');
-    game.load.image('wall', 'assets/wall.png');
-    game.load.image('wall2', 'assets/wall2.png');
+    game.load.image('wall', 'assets/wall-y.png');
+    game.load.image('wall2', 'assets/wall-x.png');
     game.load.spritesheet('robot', 'assets/robot.png', 61, 80);
 
     game.time.advancedTiming = true;
@@ -93,13 +73,13 @@ BasicGame.Boot.prototype ={
     for(i = 0; i < map.length; ++i) {
       for(j = 0; j < map[i].length; ++j) {
         if (map[i][j] === 1) {
-          a1 = game.add.isoSprite(j*40, i*40, 0, 'wall', 0, obstacleGroup);
+          a1 = game.add.isoSprite(j*65, i*53, 0, 'wall', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
           a1.body.immovable = true;
         } else if (map[i][j] === 2) {
-          a1 = game.add.isoSprite(j*40, i*40, 0, 'wall2', 0, obstacleGroup);
+          a1 = game.add.isoSprite(j*75, i*53, 0, 'wall2', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
@@ -119,7 +99,7 @@ BasicGame.Boot.prototype ={
 
 
     // Create another object as our 'player', and set it up just like the obstacles above.
-    player = game.add.isoSprite(328, 328, 12, 'cube_', 0, obstacleGroup);
+    player = game.add.isoSprite(60, 60, 12, 'cube_', 0, obstacleGroup);
     player.tint = 0x00ff00;
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
