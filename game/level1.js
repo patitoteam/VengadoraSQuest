@@ -131,7 +131,7 @@
   },
   update: function () {
     // For show the position of the player ;)
-    console.log(player.get().body.velocity.x + ' - ' + player.get().body.velocity.y + ' - ' + player.get().body.velocity.z);
+    //console.log(player.get().body.velocity.x + ' - ' + player.get().body.velocity.y + ' - ' + player.get().body.velocity.z);
 
     // Move the player at this speed.
     var speed = 500;
