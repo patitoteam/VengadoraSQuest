@@ -24,6 +24,7 @@
     this.cursors = null;
 
     this.element.anchor.set(0.5,0.5);
+    this.element.animations.add('stand', [0]);
     this.element.animations.add('2-walk', [1,2,3,4,5,6], 6, true);
     this.element.animations.add('3-walk', [7,8,9,8], 6, true);
     this.element.animations.add('6-walk', [17, 18, 19, 20, 21], 6, true);
@@ -75,11 +76,14 @@
       } else if (direction[0] === 1 && direction[1] === 0) {
         this.element.animations.play('9-walk');
         this.scale.set(-1,1,1);
+      } else if (direction[0] === 0 && direction[1] === 0) {
+        this.element.animations.play('stand');
       }
 
       // computing unit vector of the direction...
       magnitude = Math.sqrt(Math.pow(direction[0],2) + Math.pow(direction[1],2));
       direction = [direction[0]/magnitude, direction[1]/magnitude];
+      // so player will always move with a consistent speed
       this.element.body.velocity.x = direction[0]*speed;
       this.element.body.velocity.y = direction[1]*speed;
     }
