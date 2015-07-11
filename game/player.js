@@ -14,7 +14,9 @@
     );
     this.element.tint = options.tint || 0;
     this.element.anchor.set(0.5);
-    // this.element.body.collideWorldBounds = true;
+    // window.foobar = this.element;
+    game.physics.isoArcade.enable(this.element);
+    this.element.body.collideWorldBounds = true;
   };
 
   Player.prototype = {
@@ -23,23 +25,23 @@
     },
     move: function(cursors, speed) {
       if (cursors.up.isDown) {
-        player.body.velocity.y = -speed;
+        this.element.body.velocity.y = -speed;
       }
       else if (cursors.down.isDown) {
-        player.body.velocity.y = speed;
+        this.element.body.velocity.y = speed;
       }
       else {
-        player.body.velocity.y = 0;
+        this.element.body.velocity.y = 0;
       }
 
       if (cursors.left.isDown) {
-        player.body.velocity.x = -speed;
+        this.element.body.velocity.x = -speed;
       }
       else if (cursors.right.isDown) {
-        player.body.velocity.x = speed;
+        this.element.body.velocity.x = speed;
       }
       else {
-        player.body.velocity.x = 0;
+        this.element.body.velocity.x = 0;
       }
     }
   };
