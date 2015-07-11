@@ -16,7 +16,7 @@ var spawnRobots = function () {
   var robotsYPositions = [70, 100, 300, 300, 950, 950, 710, 800];
   var robotsVelocities = [0, 150, 300];
 
-  for (var i = 0; i <= robotsXPositions.length; i++) {
+  for (var i = 0; i < robotsXPositions.length; i++) {
     // Create a cube using the new game.add.isoSprite factory method at the specified position.
     // The last parameter is the group you want to add it to (just like game.add.sprite)
     robot = game.add.isoSprite(robotsXPositions[i], robotsYPositions[i], 0, 'robot', 6, obstacleGroup);

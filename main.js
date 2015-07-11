@@ -99,7 +99,7 @@ BasicGame.Boot.prototype ={
     }
 
     player = new Player(this, {
-      x: 80, y: 80, z: 0, group: obstacleGroup, tint: 0x00ff00
+      x: 830, y: 600, z: 0, group: obstacleGroup, tint: 0x00ff00
     });
 
     // Make the camera follow the player.
