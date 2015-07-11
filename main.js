@@ -1,4 +1,4 @@
-var game = new Phaser.Game(window.innerWidth-8, window.innerHeight-17, Phaser.AUTO, 'test', null, false, true);
+var game = new Phaser.Game(400,400, Phaser.AUTO, 'test', null, false, true);
 
 var BasicGame = function (game) { };
 
@@ -6,8 +6,37 @@ BasicGame.Boot = function (game) { };
 
 var isoGroup,
   groundGroup,
-  wallGroup,
+  obstacleGroup,
   player;
+
+var map = [
+  [2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
+  [2, 1, 1, 0, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
+  [2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 3, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 1, 0, 1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 1, 1, 1, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+
+];
 
 BasicGame.Boot.prototype ={
   preload: function () {
@@ -18,6 +47,7 @@ BasicGame.Boot.prototype ={
     game.load.spritesheet('robot', 'assets/robot.png', 61, 80);
 
     game.time.advancedTiming = true;
+
     // Add and enable the plug-in.
     game.plugins.add(new Phaser.Plugin.Isometric(game));
 
@@ -32,7 +62,7 @@ BasicGame.Boot.prototype ={
 
     // This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
     // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
-    game.iso.anchor.setTo(0.3, 0.1);
+    game.iso.anchor.setTo(0.5, 0.1);
   },
 
   create: function () {
@@ -46,38 +76,12 @@ BasicGame.Boot.prototype ={
     this.robot = robot(this);
 
     groundGroup = game.add.group();
-    wallGroup = game.add.group();
+    obstacleGroup = game.add.group();
 
-    var a2 = game.add.isoSprite(45, 24, 0, 'wall', 0, wallGroup);
-    var a3 = game.add.isoSprite(85, 24, 0, 'wall', 0, wallGroup);
-    var a4 = game.add.isoSprite(125, 24, 0, 'wall', 0, wallGroup);
-    var a1;
-    for(var i = 0; i < 4; ++i) {
-      a1 = game.add.isoSprite(5+(i*40), 24, 0, 'wall', 0, wallGroup);
-      game.physics.isoArcade.enable(a1);
-      a1.body.collideWorldBounds = true;
-      a1.body.immovable = true;
-    }
 
-    var a5 = game.add.isoSprite(125, 24, 0, 'wall2', 0, wallGroup);
-    var a6 = game.add.isoSprite(-25, 60, 0, 'wall2', 0, wallGroup);
-    var a7 = game.add.isoSprite(-25, 100, 0, 'wall2', 0, wallGroup);
-    var a8 = game.add.isoSprite(-25, 140, 0, 'wall2', 0, wallGroup);
-    var a9 = game.add.isoSprite(-25, 180, 0, 'wall2', 0, wallGroup);
-    var a10 = game.add.isoSprite(-25, 220, 0, 'wall2', 0, wallGroup);
-    var a11 = game.add.isoSprite(50, 60, 0, 'wall2', 0, wallGroup);
-    var a12 = game.add.isoSprite(50, 100, 0, 'wall2', 0, wallGroup);
-    var a13 = game.add.isoSprite(50, 140, 0, 'wall2', 0, wallGroup);
-    var a14 = game.add.isoSprite(50, 180, 0, 'wall2', 0, wallGroup);
-    var a15 = game.add.isoSprite(50, 220, 0, 'wall2', 0, wallGroup);
-    var a16 = game.add.isoSprite(150, 60, 0, 'wall2', 0, wallGroup);
-    var a17 = game.add.isoSprite(150, 100, 0, 'wall2', 0, wallGroup);
-    var a18 = game.add.isoSprite(150, 140, 0, 'wall2', 0, wallGroup);
-    var a19 = game.add.isoSprite(150, 180, 0, 'wall2', 0, wallGroup);
-    var a20 = game.add.isoSprite(150, 220, 0, 'wall2', 0, wallGroup);
+    game.physics.isoArcade.gravity.setTo(0, 0, -1000);
 
-    isoGroup = game.add.group();
-    var floorTile;
+    var floorTile, i, j;
     for (var xt = 1024; xt > 0; xt -= 35) {
       for (var yt = 1024; yt > 0; yt -= 35) {
         floorTile = game.add.isoSprite(xt, yt, 0, 'ground', 0, groundGroup);
@@ -85,8 +89,37 @@ BasicGame.Boot.prototype ={
       }
     }
 
-    // Create another cube as our 'player', and set it up just like the cubes above.
-    player = game.add.isoSprite(328, 328, 0, 'cube_', 0, wallGroup);
+    var a1;
+    for(i = 0; i < map.length; ++i) {
+      for(j = 0; j < map[i].length; ++j) {
+        if (map[i][j] === 1) {
+          a1 = game.add.isoSprite(j*40, i*40, 0, 'wall', 0, obstacleGroup);
+          a1.anchor.set(0.5);
+          game.physics.isoArcade.enable(a1);
+          a1.body.collideWorldBounds = true;
+          a1.body.immovable = true;
+        } else if (map[i][j] === 2) {
+          a1 = game.add.isoSprite(j*40, i*40, 0, 'wall2', 0, obstacleGroup);
+          a1.anchor.set(0.5);
+          game.physics.isoArcade.enable(a1);
+          a1.body.collideWorldBounds = true;
+          a1.body.immovable = true;
+        }
+      }
+    }
+
+    // var a1;
+    // for(var i = 125; i >= 5; i-=40) {
+    //   a1 = game.add.isoSprite(i, 55, 0, 'wall', 0, obstacleGroup);
+    //   a1.anchor.set(0.5);
+    //   game.physics.isoArcade.enable(a1);
+    //   a1.body.collideWorldBounds = true;
+    //   a1.body.immovable = true;
+    // }
+
+
+    // Create another object as our 'player', and set it up just like the obstacles above.
+    player = game.add.isoSprite(328, 328, 12, 'cube_', 0, obstacleGroup);
     player.tint = 0x00ff00;
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
@@ -105,12 +138,6 @@ BasicGame.Boot.prototype ={
       Phaser.Keyboard.DOWN,
       Phaser.Keyboard.SPACEBAR
     ]);
-
-    var space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-    space.onDown.add(function () {
-      player.body.velocity.z = 300;
-    }, this);
 
     this.robot.bringToTop();
   },
@@ -139,11 +166,10 @@ BasicGame.Boot.prototype ={
     }
 
     // Our collision and sorting code again.
-    game.physics.isoArcade.collide(wallGroup);
-    game.iso.topologicalSort(wallGroup);
+    game.physics.isoArcade.collide(obstacleGroup);
+    game.iso.topologicalSort(obstacleGroup);
   },
   render: function () {
-    game.debug.text("Move with cursors, jump with space!", 2, 36, "#ffffff");
     game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
   }
 };
