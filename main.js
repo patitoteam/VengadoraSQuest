@@ -15,6 +15,7 @@ BasicGame.Boot.prototype ={
     game.load.image('ground', 'assets/ground_tile.png');
     game.load.image('wall', 'assets/wall.png');
     game.load.image('wall2', 'assets/wall2.png');
+    game.load.spritesheet('robot', 'assets/robot.png', 61, 80);
 
     game.time.advancedTiming = true;
     // Add and enable the plug-in.
@@ -25,19 +26,27 @@ BasicGame.Boot.prototype ={
 
     // Start the IsoArcade physics system.
     game.physics.startSystem(Phaser.Plugin.Isometric.ISOARCADE);
+
+    // In order to have the camera move, we need to increase the size of our world bounds.
     game.world.setBounds(0, 0, 2048, 1024);
 
     // This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
     // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
     game.iso.anchor.setTo(0.3, 0.1);
   },
+
   create: function () {
+    // Background color.
     game.stage.background = 0xB91717;
+
+    // Physics.
+    game.physics.isoArcade.gravity.setTo(0, 0, -500);
+
+    // Sprites creation.
+    this.robot = robot(this);
 
     groundGroup = game.add.group();
     wallGroup = game.add.group();
-
-    game.physics.isoArcade.gravity.setTo(0, 0, -500);
 
     var a2 = game.add.isoSprite(45, 24, 0, 'wall', 0, wallGroup);
     var a3 = game.add.isoSprite(85, 24, 0, 'wall', 0, wallGroup);
@@ -102,10 +111,12 @@ BasicGame.Boot.prototype ={
     space.onDown.add(function () {
       player.body.velocity.z = 300;
     }, this);
+
+    this.robot.bringToTop();
   },
   update: function () {
     // Move the player at this speed.
-    var speed = 100;
+    var speed = 500;
 
     if (this.cursors.up.isDown) {
       player.body.velocity.y = -speed;
