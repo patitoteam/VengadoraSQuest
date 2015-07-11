@@ -32,10 +32,6 @@ BasicGame.Boot.prototype ={
     game.iso.anchor.setTo(0.3, 0.1);
   },
   create: function () {
-
-    // Make the camera follow the player.
-    game.camera.follow(player);
-
     game.stage.background = 0xB91717;
 
     groundGroup = game.add.group();
@@ -86,6 +82,9 @@ BasicGame.Boot.prototype ={
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
     player.body.collideWorldBounds = true;
+
+    // Make the camera follow the player.
+    game.camera.follow(player);
 
     // Set up our controls.
     this.cursors = game.input.keyboard.createCursorKeys();
