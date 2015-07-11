@@ -55,10 +55,10 @@ BasicGame.Boot.prototype ={
     game.stage.background = 0xB91717;
 
     // Physics.
-    game.physics.isoArcade.gravity.setTo(0, 0, -500);
+    game.physics.isoArcade.gravity.setTo(0, 0, -1000);
 
     // Sprites creation.
-    this.robot = robot(this);
+    this.robot = robotClass(this);
 
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
