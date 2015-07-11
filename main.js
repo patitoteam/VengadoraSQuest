@@ -15,6 +15,9 @@ BasicGame.Boot.prototype ={
     // Add and enable the plug-in.
     game.plugins.add(new Phaser.Plugin.Isometric(game));
 
+    // In order to have the camera move, we need to increase the size of our world bounds.
+    game.world.setBounds(0, 0, 2048, 1024);
+
     // Start the IsoArcade physics system.
     game.physics.startSystem(Phaser.Plugin.Isometric.ISOARCADE);
 
@@ -23,6 +26,9 @@ BasicGame.Boot.prototype ={
     game.iso.anchor.setTo(0.5, 0.2);
   },
   create: function () {
+    // Make the camera follow the player.
+    game.camera.follow(player);
+
     // Create a group for our tiles, so we can use Group.sort
     isoGroup = game.add.group();
 
