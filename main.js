@@ -54,7 +54,7 @@ BasicGame.Boot.prototype ={
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
 
     // Sprites creation.
-    this.robot = robotClass(this);
+    this.robot = robot(this);
 
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
