@@ -98,19 +98,12 @@ BasicGame.Boot.prototype ={
       }
     }
 
-    // Create another object as our 'player', and set it up just like the obstacles above.
-    player = game.add.isoSprite(830, 600, 0, 'cube_', 0, obstacleGroup);
-    player.tint = 0x00ff00;
-    player.anchor.set(0.5);
-    game.physics.isoArcade.enable(player);
-    player.body.collideWorldBounds = true;
-    // player = new Player(this, {
-    //   x: 80, y: 80, z: 0, group: obstacleGroup, tint: 0x00ff00
-    // });
-
+    player = new Player(this, {
+      x: 80, y: 80, z: 0, group: obstacleGroup, tint: 0x00ff00
+    });
 
     // Make the camera follow the player.
-    game.camera.follow(player);
+    game.camera.follow(player.get());
 
     // Set up our controls.
     this.cursors = game.input.keyboard.createCursorKeys();
@@ -133,28 +126,7 @@ BasicGame.Boot.prototype ={
 
     // Move the player at this speed.
     var speed = 500;
-
-    if (this.cursors.up.isDown) {
-      player.body.velocity.y = -speed;
-    }
-    else if (this.cursors.down.isDown) {
-      player.body.velocity.y = speed;
-    }
-    else {
-      player.body.velocity.y = 0;
-    }
-
-    if (this.cursors.left.isDown) {
-      player.body.velocity.x = -speed;
-    }
-    else if (this.cursors.right.isDown) {
-      player.body.velocity.x = speed;
-    }
-    else {
-      player.body.velocity.x = 0;
-    }
-
-    // player.get().move(this.cursors, speed);
+    player.move(this.cursors, speed);
 
     // Our collision and sorting code again.
     game.physics.isoArcade.collide(obstacleGroup);
