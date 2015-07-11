@@ -1,4 +1,4 @@
-var game = new Phaser.Game(400,400, Phaser.AUTO, 'test', null, false, true);
+var game = new Phaser.Game(700,700, Phaser.AUTO, 'test', null, false, true);
 
 var SPEED = 500;
 
@@ -37,7 +37,7 @@ BasicGame.Boot.prototype ={
     game.load.image('ground', 'assets/floor.png');
     game.load.image('wall', 'assets/wall-y.png');
     game.load.image('wall2', 'assets/wall-x.png');
-    game.load.spritesheet('robot', 'assets/robot.png', 61, 80);
+    game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
 
     game.time.advancedTiming = true;
 
@@ -56,6 +56,7 @@ BasicGame.Boot.prototype ={
     // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
     game.iso.anchor.setTo(0.5, 0.1);
     game.iso.projectionAngle = 0.52359878;
+    game.time.advancedTiming = true;
   },
 
   create: function () {
@@ -64,9 +65,6 @@ BasicGame.Boot.prototype ={
 
     // Physics.
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
-
-    // Sprites creation.
-    this.robot = robot(this);
 
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
@@ -125,7 +123,8 @@ BasicGame.Boot.prototype ={
       Phaser.Keyboard.SPACEBAR
     ]);
 
-    this.robot.bringToTop();
+    // Robots Creation
+    this.robots = robotClass(this);
   },
   update: function () {
     // Move the player at this speed.
@@ -157,15 +156,15 @@ BasicGame.Boot.prototype ={
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
   },
-  render: function () {
-    game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
-    groundGroup.forEach(function (tile) {
-      game.debug.body(tile, 'rgba(255, 221, 235, 0.6)', false);
-    });
-    obstacleGroup.forEach(function (tile) {
-      game.debug.body(tile, 'rgba(189, 221, 235, 0.6)', false);
-    });
-  }
+  // render: function () {
+  //   game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
+  //   groundGroup.forEach(function (tile) {
+  //     game.debug.body(tile, 'rgba(255, 221, 235, 0.6)', false);
+  //   });
+  //   obstacleGroup.forEach(function (tile) {
+  //     game.debug.body(tile, 'rgba(189, 221, 235, 0.6)', false);
+  //   });
+  // }
 };
 
 game.state.add('Boot', BasicGame.Boot);
