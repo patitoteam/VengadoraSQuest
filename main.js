@@ -11,21 +11,23 @@ var isoGroup,
   player;
 
 var map = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ,],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1,],
 ];
 
 BasicGame.Boot.prototype ={
   preload: function () {
     game.load.image('cube_', 'assets/cube.png');
-    game.load.image('ground', 'assets/ground_tile.png');
+    game.load.image('ground', 'assets/floor.png');
     game.load.image('wall', 'assets/wall-y.png');
     game.load.image('wall2', 'assets/wall-x.png');
     game.load.spritesheet('robot', 'assets/robot.png', 61, 80);
@@ -77,13 +79,13 @@ BasicGame.Boot.prototype ={
     for(i = 0; i < map.length; ++i) {
       for(j = 0; j < map[i].length; ++j) {
         if (map[i][j] === 1) {
-          a1 = game.add.isoSprite((j*66)+25, i*66-32, 0, 'wall', 0, obstacleGroup);
+          a1 = game.add.isoSprite(j*65, i*65, 0, 'wall', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
           a1.body.immovable = true;
         } else if (map[i][j] === 2) {
-          a1 = game.add.isoSprite(j*66, i*66-16, 0, 'wall2', 0, obstacleGroup);
+          a1 = game.add.isoSprite(j*65, i*65, 0, 'wall2', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
@@ -103,7 +105,7 @@ BasicGame.Boot.prototype ={
 
 
     // Create another object as our 'player', and set it up just like the obstacles above.
-    player = game.add.isoSprite(60, 60, 0, 'cube_', 0, obstacleGroup);
+    player = game.add.isoSprite(80, 80, 0, 'cube_', 0, obstacleGroup);
     player.tint = 0x00ff00;
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
