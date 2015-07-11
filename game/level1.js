@@ -44,6 +44,7 @@
     game.load.image('wall12', 'assets/wall-l-left.png');
     game.load.image('wall13', 'assets/wall-l-bottom.png');
     game.load.image('bomb', 'assets/bomb.png');
+    game.load.image('letter_a', 'assets/letters/a.png');
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
     game.load.spritesheet('kid', 'assets/kid.png', 130, 150);
@@ -77,6 +78,11 @@
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
     window.obstacleGroup = obstacleGroup;
+
+    // Letters in the level.
+    this.lettersGroup = game.add.group();
+    var lettersTile = game.add.isoSprite(100, 100, 0, 'letter_a', 0, this.lettersGroup);
+    lettersTile.anchor.set(0.5);
 
     var floorTile, i, j;
     for (var xt = 2048; xt > 0; xt -= 35) {
@@ -135,6 +141,12 @@
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
 
+    this.lettersGroup.forEach( function (letter) {
+      if(Math.abs(player.get().isoPosition.x - letter.isoPosition.x) < 70 &&
+        Math.abs(player.get().isoPosition.y - letter.isoPosition.y) < 70) {
+        letter.kill();
+      }
+    });
 
     //console.log(player.get().x);
     obstacleGroup.forEach( function (obstacle) {
@@ -143,7 +155,7 @@
         //console.log(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x));
         if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
           Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
-          game.state.start('Level1'); // :O
+          //game.state.start('Level1'); // :O
         }
       }
     });
@@ -180,6 +192,8 @@
           if(dist <= 250) {
             tile.kill();
             killed++;
+            tile.isoPosition.x = -100;
+            tile.isoPosition.y = -100;
           }
           // }
         }
