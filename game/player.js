@@ -12,10 +12,16 @@
       0,
       options.group || null
     );
+    this.onBombMounted = options.onBombMounted || null;
+    this.onExplosion = options.onExplosion || null;
+    this.element.tint = options.tint || 0;
+
     this.element.anchor.set(0.5);
     // window.foobar = this.element;
     game.physics.isoArcade.enable(this.element);
     this.element.body.collideWorldBounds = true;
+    this.canLeaveBomb = true;
+    this.cursors = null;
 
     this.element.anchor.set(0.5,0.5);
     this.element.animations.add('2-walk', [1,2,3,4,5,6], 6, true);
@@ -31,6 +37,11 @@
       return this.element;
     },
     move: function(cursors, speed) {
+      if(!this.cursors) {
+        this.cursors = cursors;
+        this.cursors.jump.onDown.add(fire.bind(this));
+      }
+
       var direction = [0,0],
           magnitude;
       if (cursors.up.isDown) {
@@ -50,7 +61,7 @@
         direction[1]--;
       }
 
-      // computing animation      
+      // computing animation
       this.element.scale.set(1,1,1);
       if (direction[0] === 1 && direction[1] === 1) {
         this.element.animations.play('2-walk');
@@ -60,7 +71,7 @@
         this.element.animations.play('6-walk');
         this.element.scale.set(-1,1,1);
       } else if (direction[0] === 1 && direction[1] === -1) {
-        this.element.animations.play('6-walk');        
+        this.element.animations.play('6-walk');
       } else if (direction[0] === 1 && direction[1] === 0) {
         this.element.animations.play('9-walk');
         this.scale.set(-1,1,1);
@@ -73,6 +84,28 @@
       this.element.body.velocity.y = direction[1]*speed;
     }
   };
+
+  function fire() {
+    if(this.canLeaveBomb) {
+      var player = this.element;
+      var x = player.isoPosition.x;
+      var y = player.isoPosition.y;
+      var row = Math.floor(x / 65);
+      var col = Math.floor(y / 65);
+
+      if(this.onBombMounted) {
+        this.onBombMounted({row:row, col:col});
+      }
+
+      this.canLeaveBomb = false;
+      setTimeout(function() {
+        if(this.onExplosion) {
+          this.onExplosion({x: x, y: y});
+        }
+        this.canLeaveBomb = true;
+      }.bind(this), 3000);
+    }
+  }
 
   window.Player = Player;
 }).call(document);
