@@ -8,15 +8,17 @@
       options.x || 0,
       options.y || 0,
       options.z || 0,
-      'cube_',
+      'kid',
       0,
       options.group || null
     );
-    this.element.tint = options.tint || 0;
     this.element.anchor.set(0.5);
     // window.foobar = this.element;
     game.physics.isoArcade.enable(this.element);
     this.element.body.collideWorldBounds = true;
+
+    this.element.animations.add('front-walk', [1,2,3,4,5,6], 6, true);
+    this.element.animations.play('front-walk');
   };
 
   Player.prototype = {
