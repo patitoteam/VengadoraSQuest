@@ -8,8 +8,8 @@ var isoGroup, player;
 
 BasicGame.Boot.prototype ={
   preload: function () {
-    game.load.image('cube_', '../assets/cube.png');
-    game.load.image('ground', '../assets/ground_tile.png');
+    game.load.image('cube_', 'assets/cube.png');
+    game.load.image('ground', 'assets/ground_tile.png');
 
     game.time.advancedTiming = true;
     // Add and enable the plug-in.
@@ -35,7 +35,7 @@ BasicGame.Boot.prototype ={
       for (var yy = 256; yy > 0; yy -= 80) {
         // Create a cube using the new game.add.isoSprite factory method at the specified position.
         // The last parameter is the group you want to add it to (just like game.add.sprite)
-        cube = game.add.isoSprite(xx, yy, -80, 'ground', 0, isoGroup);
+        cube = game.add.isoSprite(xx, yy, 0, 'ground', 0, isoGroup);
         // cube.anchor.set(0.5);
         // Enable the physics body on this cube.
         // game.physics.isoArcade.enable(cube);
