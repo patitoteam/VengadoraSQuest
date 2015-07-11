@@ -99,7 +99,7 @@ BasicGame.Boot.prototype ={
     }
 
     // Create another object as our 'player', and set it up just like the obstacles above.
-    player = game.add.isoSprite(80, 80, 0, 'cube_', 0, obstacleGroup);
+    player = game.add.isoSprite(830, 600, 0, 'cube_', 0, obstacleGroup);
     player.tint = 0x00ff00;
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
@@ -127,6 +127,10 @@ BasicGame.Boot.prototype ={
     this.robots = robotClass(this);
   },
   update: function () {
+
+    // For show the position of the player ;)
+    //console.log(player.isoPosition.x + ' - ' + player.isoPosition.y);
+
     // Move the player at this speed.
     var speed = 500;
 
