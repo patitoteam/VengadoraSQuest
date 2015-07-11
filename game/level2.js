@@ -34,6 +34,7 @@
       game.load.image('wall13', 'assets/wall-l-bottom.png');
       game.load.image('bomb', 'assets/bomb.png');
       game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
+      game.load.spritesheet('kid', 'assets/kid.png', 130, 150);
 
       game.time.advancedTiming = true;
       game.plugins.add(new Phaser.Plugin.Isometric(game));

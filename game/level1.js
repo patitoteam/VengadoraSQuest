@@ -5,7 +5,7 @@
     groundGroup,
     obstacleGroup,
     player;
-
+  
   var map = [
     [10,1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1,11,],
     [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
@@ -44,6 +44,7 @@
     game.load.image('wall13', 'assets/wall-l-bottom.png');
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
+    game.load.spritesheet('kid', 'assets/kid.png', 130, 150);
 
     game.time.advancedTiming = true;
 
@@ -128,8 +129,14 @@
     // Our collision and sorting code again.
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
+
+    obstacleGroup.forEach( function (obstacle) {
+      if(obstacle.key == 'robot') {
+        animateRobots(obstacle);
+      }
+    });
   },
-  // render: function () {
+  render: function () {
   //   game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
   //   groundGroup.forEach(function (tile) {
   //     game.debug.body(tile, 'rgba(255, 221, 235, 0.6)', false);
@@ -137,7 +144,7 @@
   //   obstacleGroup.forEach(function (tile) {
   //     game.debug.body(tile, 'rgba(189, 221, 235, 0.6)', false);
   //   });
-  // }
+  }
 };
 
 }).call(document);
