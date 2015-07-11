@@ -135,9 +135,16 @@
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
 
+
+    //console.log(player.get().x);
     obstacleGroup.forEach( function (obstacle) {
       if(obstacle.key == 'robot') {
         animateRobots(obstacle);
+        //console.log(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x));
+        if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
+          Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
+          game.state.start('Level1'); // :O
+        }
       }
     });
   },
