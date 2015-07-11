@@ -44,6 +44,7 @@ BasicGame.Boot.prototype ={
     // This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
     // this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
     game.iso.anchor.setTo(0.5, 0.1);
+    game.iso.projectionAngle = 0.52359878;
   },
 
   create: function () {
@@ -73,13 +74,13 @@ BasicGame.Boot.prototype ={
     for(i = 0; i < map.length; ++i) {
       for(j = 0; j < map[i].length; ++j) {
         if (map[i][j] === 1) {
-          a1 = game.add.isoSprite(j*78+30, i*60, 0, 'wall', 0, obstacleGroup);
+          a1 = game.add.isoSprite((j*66), i*66, 0, 'wall', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
           a1.body.immovable = true;
         } else if (map[i][j] === 2) {
-          a1 = game.add.isoSprite(j*60, i*60, 0, 'wall2', 0, obstacleGroup);
+          a1 = game.add.isoSprite(j*66, i*66, 0, 'wall2', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
