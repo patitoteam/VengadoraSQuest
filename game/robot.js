@@ -36,10 +36,10 @@ var spawnRobots = function () {
     robot.body.velocity.setTo(robotsVelocities[game.rnd.integerInRange(0, 2)], robotsVelocities[game.rnd.integerInRange(0, 2)], robotsVelocities[game.rnd.integerInRange(0, 2)]);
 
     // Animations.
-    robot.animations.add('up-left', [0]);
-    robot.animations.add('up-right', [1]);
-    robot.animations.add('bottom-left', [3]);
-    robot.animations.add('bottom-right', [2]);
+    robot.animations.add('up-left', [0, 1, 2]);
+    robot.animations.add('up-right', [3, 4, 5]);
+    robot.animations.add('bottom-left', [9, 10, 11]);
+    robot.animations.add('bottom-right', [6, 7, 8]);
   }
 };
 
