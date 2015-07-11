@@ -11,12 +11,15 @@ var isoGroup,
   player;
 
 var map = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ,],
 ];
 
 BasicGame.Boot.prototype ={
@@ -74,13 +77,13 @@ BasicGame.Boot.prototype ={
     for(i = 0; i < map.length; ++i) {
       for(j = 0; j < map[i].length; ++j) {
         if (map[i][j] === 1) {
-          a1 = game.add.isoSprite((j*66), i*66, 0, 'wall', 0, obstacleGroup);
+          a1 = game.add.isoSprite((j*66)+25, i*66-32, 0, 'wall', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
           a1.body.immovable = true;
         } else if (map[i][j] === 2) {
-          a1 = game.add.isoSprite(j*66, i*66, 0, 'wall2', 0, obstacleGroup);
+          a1 = game.add.isoSprite(j*66, i*66-16, 0, 'wall2', 0, obstacleGroup);
           a1.anchor.set(0.5);
           game.physics.isoArcade.enable(a1);
           a1.body.collideWorldBounds = true;
@@ -100,7 +103,7 @@ BasicGame.Boot.prototype ={
 
 
     // Create another object as our 'player', and set it up just like the obstacles above.
-    player = game.add.isoSprite(60, 60, 12, 'cube_', 0, obstacleGroup);
+    player = game.add.isoSprite(60, 60, 0, 'cube_', 0, obstacleGroup);
     player.tint = 0x00ff00;
     player.anchor.set(0.5);
     game.physics.isoArcade.enable(player);
@@ -152,6 +155,12 @@ BasicGame.Boot.prototype ={
   },
   render: function () {
     game.debug.text(game.time.fps || '--', 2, 14, "#a7aebe");
+    groundGroup.forEach(function (tile) {
+      game.debug.body(tile, 'rgba(255, 221, 235, 0.6)', false);
+    });
+    obstacleGroup.forEach(function (tile) {
+      game.debug.body(tile, 'rgba(189, 221, 235, 0.6)', false);
+    });
   }
 };
 
