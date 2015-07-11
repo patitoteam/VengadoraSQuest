@@ -30,7 +30,7 @@ BasicGame.Boot.prototype ={
     game.load.image('ground', 'assets/floor.png');
     game.load.image('wall', 'assets/wall-y.png');
     game.load.image('wall2', 'assets/wall-x.png');
-    game.load.spritesheet('robot', 'assets/robot.png', 61, 80);
+    game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
 
     game.time.advancedTiming = true;
 
