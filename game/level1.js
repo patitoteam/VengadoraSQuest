@@ -155,7 +155,7 @@
         //console.log(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x));
         if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
           Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
-          //game.state.start('Level1'); // :O
+          game.state.start('Level1'); // :O
         }
       }
     });

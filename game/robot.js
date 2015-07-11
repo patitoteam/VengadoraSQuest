@@ -12,8 +12,8 @@ var robotClass = function (level) {
 var spawnRobots = function () {
   var robot;
 
-  //var robotsXPositions = [70, 100, 1170, 1020, 120, 220, 1160, 1170];
-  //var robotsYPositions = [70, 100, 300, 300, 950, 950, 710, 800];
+  var robotsXPositions = [70, 100, 1170, 1020, 120, 220, 1160, 1170];
+  var robotsYPositions = [70, 100, 300, 300, 950, 950, 710, 800];
   var robotsVelocities = [0, 150, 300];
 
   for (var i = 0; i < robotsXPositions.length; i++) {
