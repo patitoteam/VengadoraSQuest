@@ -53,6 +53,9 @@
     game.load.image('wall13', 'assets/wall-l-bottom.png');
     game.load.image('bomb', 'assets/bomb.png');
     game.load.image('letter_a', 'assets/letters/a.png');
+    game.load.image('letter_e', 'assets/letters/a.png');
+    game.load.image('letter_g', 'assets/letters/a.png');
+    game.load.image('letter_m', 'assets/letters/a.png');
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
     game.load.spritesheet('kid', 'assets/girl.png', 130, 150);
@@ -100,7 +103,7 @@
 
     if(!audioLevel1) {
       audioLevel1 = game.add.audio('level1_audio');
-      audioLevel1.play();
+      //audioLevel1.play();
     }
 
     // Physics.
@@ -111,10 +114,27 @@
     explosionGroup = game.add.group();
     window.obstacleGroup = obstacleGroup;
 
-    // Letters in the level.
-    this.lettersGroup = game.add.group();
-    var lettersTile = game.add.isoSprite(100, 100, 0, 'letter_a', 0, this.lettersGroup);
-    lettersTile.anchor.set(0.5);
+    // Letters of the level.
+    this.letterGroup = new LetterGroup(game, {map: [
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,'e', 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,'a', 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [3, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,'m', 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,'g', 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0]
+    ]});
 
     var floorTile, i, j;
     for (var xt = 2048; xt > 0; xt -= 35) {
@@ -142,6 +162,7 @@
       onBombMounted: onBombMounted.bind(this),
       onExplosion: onExplosion.bind(this)
     });
+    game.player = player;
 
     // Make the camera follow the player.
     game.camera.follow(player.get());
@@ -174,16 +195,6 @@
     // Our collision and sorting code again.
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
-
-    // Iterate the objects of the Letters Group.
-    this.lettersGroup.forEach( function (letter) {
-
-      // Collision between the player and a letter.
-      if(Math.abs(player.get().isoPosition.x - letter.isoPosition.x) < 70 &&
-        Math.abs(player.get().isoPosition.y - letter.isoPosition.y) < 70) {
-        takeLetter(letter);
-      }
-    });
 
     // Animate the player.
     animatePlayer(player.get(), this.cursors);
