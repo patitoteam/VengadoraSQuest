@@ -109,10 +109,10 @@ var animatePlayer = function (player, cursors)  {
     player.animations.play('bottom');
   } else if (cursors.up.isDown && cursors.left.isUp && cursors.right.isUp) {
     player.animations.play('up');
-  } else if(player.body.velocity.x >= 0 && player.body.velocity.y == 0) {
+  } else if(player.body.velocity.x >= 0 && player.body.velocity.y === 0) {
     player.scale.set(1,1);
     player.animations.play('bottom-right');
-  } else if(player.body.velocity.x < 0 && player.body.velocity.y == 0) {
+  } else if(player.body.velocity.x < 0 && player.body.velocity.y === 0) {
     player.scale.set(-1,1);
     player.animations.play('up-left');
   } else if(player.body.velocity.y >= 0) {
