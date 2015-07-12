@@ -20,7 +20,7 @@
       }, this);
 
       rankingButton.events.onInputDown.add(function() {
-        console.log('rankings');
+        game.state.start('Rankings');
       }, this);
     },
     update: function() {
