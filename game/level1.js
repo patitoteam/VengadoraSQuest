@@ -143,7 +143,9 @@
     this.robots = robotClass(this);
   },
   update: function () {
-    // For show the position of the player ;)
+    // For show the position of the player ;) #FORDEBUG
+    //console.log(player.get().isoPosition.x + ' - ' + player.get().isoPosition.y + ' - ' + player.get().isoPosition.z);
+    // Show the veolocity of the player ;D #FORDEBUG
     //console.log(player.get().body.velocity.x + ' - ' + player.get().body.velocity.y + ' - ' + player.get().body.velocity.z);
 
     // Move the player at this speed.
@@ -154,23 +156,32 @@
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
 
+    // Iterate the objects of the Letters Group.
     this.lettersGroup.forEach( function (letter) {
+
+      // Collision between the player and a letter.
       if(Math.abs(player.get().isoPosition.x - letter.isoPosition.x) < 70 &&
         Math.abs(player.get().isoPosition.y - letter.isoPosition.y) < 70) {
-        letter.kill();
+        letter.kill(); // Kill the letter!.. :O
       }
     });
 
+    // Animate the player.
     animatePlayer(player.get(), this.cursors);
 
-    //console.log(player.get().x);
+    // Iterate the objects at obstacles group.
     obstacleGroup.forEach( function (obstacle) {
+
+      // If the object is a robot.
       if(obstacle.key == 'robot') {
+
+        // Animate the robots.
         animateRobots(obstacle);
-        //console.log(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x));
+
+        // Collision between the player and a robot, game over!.. :(
         if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
           Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
-          game.state.start('Level1'); // :O
+          game.state.start('Level1'); // Restart the level.
         }
       }
     });

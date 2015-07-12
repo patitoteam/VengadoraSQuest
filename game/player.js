@@ -24,21 +24,21 @@
     this.cursors = null;
 
     this.element.anchor.set(0.5,0.5);
+    
     // Animations.
     this.element.animations.add('quiet', [21]);
-    this.element.animations.add('bottom', [22, 23, 24, 25, 26, 27], 11);
+    this.element.animations.add('bottom', [21, 22, 23, 24, 25, 26, 27], 11);
     this.element.animations.add('up', [7, 8, 9, 10, 11, 12, 13], 11);
-    this.element.animations.add('up-left', [0, 1, 2, 3, 4, 5], 11);
-    this.element.animations.add('up-right', [0, 1, 2, 3, 4, 5], 11);
-    this.element.animations.add('bottom-left', [14, 15, 16, 17, 18, 19], 11);
-    this.element.animations.add('bottom-right', [14, 15, 16, 17, 18, 19], 11);
-    //this.element.animations.add('stand', [15]);
-    //this.element.animations.add('2-walk', [8,9,10,11,12,13], 6, true);
-    //this.element.animations.add('3-walk', [7,8,9,8], 6, true);
-    //this.element.animations.add('6-walk', [17, 18, 19, 20, 21], 6, true);
-    //this.element.animations.add('8-walk', [11, 12, 13, 14, 15, 16], 6, true);
-    //this.element.animations.add('9-walk', [26, 25, 24, 25], 6, true);
-    //this.element.animations.play('6-walk');
+    this.element.animations.add('up-left', [6, 0, 1, 2, 3, 4, 5], 11);
+    this.element.animations.add('up-right', [6, 0, 1, 2, 3, 4, 5], 11);
+    this.element.animations.add('bottom-left', [20, 14, 15, 16, 17, 18, 19], 11);
+    this.element.animations.add('bottom-right', [20, 14, 15, 16, 17, 18, 19], 11);
+    this.element.animations.add('quiet-bottom', [21], 11);
+    this.element.animations.add('quiet-up', [7], 11);
+    this.element.animations.add('quiet-bottom-left', [20], 11);
+    this.element.animations.add('quiet-bottom-right', [20], 11);
+    this.element.animations.add('quiet-up-left', [6], 11);
+    this.element.animations.add('quiet-up-right', [6], 11);
   };
 
   Player.prototype = {
@@ -105,22 +105,45 @@
 }).call(document);
 
 var animatePlayer = function (player, cursors)  {
-  if(cursors.down.isDown && cursors.left.isUp && cursors.right.isUp) {
-    player.animations.play('bottom');
+
+  // This variable is used when the player crash with a wall.
+  var quiet = '';
+  if(!player.body.touching.none) {
+    quiet = 'quiet-';
+  }
+
+  // Change the animations.
+  var velocity = player.body.velocity;
+  if (velocity.x === 0 && velocity.y === 0 && velocity.z === 0) {
+    if(cursors.down.isDown && cursors.left.isUp && cursors.right.isUp) {
+      player.animations.play('quiet-bottom');
+    } else if (cursors.up.isDown && cursors.left.isUp && cursors.right.isUp) {
+      player.animations.play('quiet-up');
+    } else if (cursors.down.isDown && cursors.right.isDown) {
+      player.animations.play('quiet-bottom-right');
+    } else if (cursors.down.isDown && cursors.left.isDown) {
+      player.animations.play('quiet-bottom-left');
+    } else if (cursors.up.isDown && cursors.left.isDown) {
+      player.animations.play('quiet-up-left');
+    } else if (cursors.up.isDown && cursors.right.isDown) {
+      player.animations.play('quiet-up-right');
+    }
+  } else if(cursors.down.isDown && cursors.left.isUp && cursors.right.isUp) {
+    player.animations.play(quiet + 'bottom');
   } else if (cursors.up.isDown && cursors.left.isUp && cursors.right.isUp) {
     player.animations.play('up');
   } else if(player.body.velocity.x >= 0 && player.body.velocity.y == 0) {
     player.scale.set(1,1);
-    player.animations.play('bottom-right');
+    player.animations.play(quiet + 'bottom-right');
   } else if(player.body.velocity.x < 0 && player.body.velocity.y == 0) {
     player.scale.set(-1,1);
-    player.animations.play('up-left');
+    player.animations.play(quiet + 'up-left');
   } else if(player.body.velocity.y >= 0) {
     player.scale.set(-1,1);
-    player.animations.play('bottom-left');
+    player.animations.play(quiet + 'bottom-left');
   } else if(player.body.velocity.y < 0) {
     player.scale.set(1,1);
-    player.animations.play('up-right');
+    player.animations.play(quiet + 'up-right');
   } else {
     player.animations.play('quiet');
   }
