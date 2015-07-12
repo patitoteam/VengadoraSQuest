@@ -144,7 +144,7 @@
   },
   update: function () {
     // For show the position of the player ;)
-    //console.log(player.isoPosition.x + ' - ' + player.isoPosition.y);
+    //console.log(player.get().body.velocity.x + ' - ' + player.get().body.velocity.y + ' - ' + player.get().body.velocity.z);
 
     // Move the player at this speed.
     var speed = 500;
@@ -160,6 +160,8 @@
         letter.kill();
       }
     });
+
+    animatePlayer(player.get(), this.cursors);
 
     //console.log(player.get().x);
     obstacleGroup.forEach( function (obstacle) {

@@ -24,13 +24,21 @@
     this.cursors = null;
 
     this.element.anchor.set(0.5,0.5);
-    this.element.animations.add('stand', [15]);
-    this.element.animations.add('2-walk', [8,9,10,11,12,13], 6, true);
-    this.element.animations.add('3-walk', [7,8,9,8], 6, true);
-    this.element.animations.add('6-walk', [17, 18, 19, 20, 21], 6, true);
-    this.element.animations.add('8-walk', [11, 12, 13, 14, 15, 16], 6, true);
-    this.element.animations.add('9-walk', [26, 25, 24, 25], 6, true);
-    this.element.animations.play('6-walk');
+    // Animations.
+    this.element.animations.add('quiet', [21]);
+    this.element.animations.add('bottom', [22, 23, 24, 25, 26, 27], 11);
+    this.element.animations.add('up', [7, 8, 9, 10, 11, 12, 13], 11);
+    this.element.animations.add('up-left', [0, 1, 2, 3, 4, 5], 11);
+    this.element.animations.add('up-right', [0, 1, 2, 3, 4, 5], 11);
+    this.element.animations.add('bottom-left', [14, 15, 16, 17, 18, 19], 11);
+    this.element.animations.add('bottom-right', [14, 15, 16, 17, 18, 19], 11);
+    //this.element.animations.add('stand', [15]);
+    //this.element.animations.add('2-walk', [8,9,10,11,12,13], 6, true);
+    //this.element.animations.add('3-walk', [7,8,9,8], 6, true);
+    //this.element.animations.add('6-walk', [17, 18, 19, 20, 21], 6, true);
+    //this.element.animations.add('8-walk', [11, 12, 13, 14, 15, 16], 6, true);
+    //this.element.animations.add('9-walk', [26, 25, 24, 25], 6, true);
+    //this.element.animations.play('6-walk');
   };
 
   Player.prototype = {
@@ -60,24 +68,6 @@
       if (cursors.right.isDown) {
         direction[0]++;
         direction[1]--;
-      }
-
-      // computing animation
-      this.element.scale.set(1,1,1);
-      if (direction[0] === 1 && direction[1] === 1) {
-        this.element.animations.play('2-walk');
-      } else if (direction[0] === -1 && direction[1] === -1) {
-        this.element.animations.play('8-walk');
-      } else if (direction[0] === -1 && direction[1] === 1) {
-        this.element.animations.play('6-walk');
-        this.element.scale.set(-1,1,1);
-      } else if (direction[0] === 1 && direction[1] === -1) {
-        this.element.animations.play('6-walk');
-      } else if (direction[0] === 1 && direction[1] === 0) {
-        this.element.animations.play('9-walk');
-        this.scale.set(-1,1,1);
-      } else if (direction[0] === 0 && direction[1] === 0) {
-        this.element.animations.play('stand');
       }
 
       // computing unit vector of the direction...
@@ -113,3 +103,25 @@
 
   window.Player = Player;
 }).call(document);
+
+var animatePlayer = function (player, cursors)  {
+  if(cursors.down.isDown && cursors.left.isUp && cursors.right.isUp) {
+    player.animations.play('bottom');
+  } else if (cursors.up.isDown && cursors.left.isUp && cursors.right.isUp) {
+    player.animations.play('up');
+  } else if(player.body.velocity.x >= 0 && player.body.velocity.y == 0) {
+    player.scale.set(1,1);
+    player.animations.play('bottom-right');
+  } else if(player.body.velocity.x < 0 && player.body.velocity.y == 0) {
+    player.scale.set(-1,1);
+    player.animations.play('up-left');
+  } else if(player.body.velocity.y >= 0) {
+    player.scale.set(-1,1);
+    player.animations.play('bottom-left');
+  } else if(player.body.velocity.y < 0) {
+    player.scale.set(1,1);
+    player.animations.play('up-right');
+  } else {
+    player.animations.play('quiet');
+  }
+};
