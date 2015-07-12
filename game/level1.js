@@ -7,6 +7,7 @@
     explosionGroup,
     player,
     theBomb,
+    audioLevel1,
     pip2;
 
   var map = [
@@ -58,6 +59,7 @@
     game.load.spritesheet('kaboom', 'assets/explode.png', 128, 128);
     // audio
     game.load.audio('pip2', ['assets/pip2.ogg']);
+    game.load.audio('level1_audio', ['assets/level1a.ogg']);
 
     game.time.advancedTiming = true;
 
@@ -83,6 +85,10 @@
     game.stage.background = 0xB91717;
     // get explosion audio
     pip2 = game.add.audio('pip2');
+    if(!audioLevel1) {
+      audioLevel1 = game.add.audio('level1_audio');
+      audioLevel1.play();
+    }
 
     // Physics.
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
@@ -170,7 +176,7 @@
         //console.log(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x));
         if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
           Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
-          game.state.start('Level1'); // :O
+          killPlayer(player);
         }
       }
     });
@@ -221,7 +227,7 @@
               explosions.push(kaboom);
               if(tile.key === 'kid') {
                 setTimeout(function() {
-                  game.state.start('Level1');
+                  killPlayer(player);
                 }, 200);
               } else {
                 tile.destroy();
@@ -239,5 +245,9 @@
     }
   }
 
-}).call(document);
+  function killPlayer(player) {
+    audioLevel1.restart();
+    game.state.start('Level1'); // :O
+  }
 
+}).call(document);
