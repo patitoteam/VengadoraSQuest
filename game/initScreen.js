@@ -16,7 +16,7 @@
       rankingButton.inputEnabled = true;
 
       playButton.events.onInputDown.add(function() {
-        game.state.start('Level1');
+        game.state.start('Story');
       }, this);
 
       rankingButton.events.onInputDown.add(function() {
