@@ -56,6 +56,7 @@
     game.load.image('letter_e', 'assets/letters/e.png');
     game.load.image('letter_g', 'assets/letters/g.png');
     game.load.image('letter_m', 'assets/letters/m.png');
+    game.load.image('live', 'assets/heart.png');
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
     game.load.spritesheet('kid', 'assets/girl.png', 130, 150);
@@ -92,6 +93,9 @@
   },
 
   create: function () {
+    // If is set to false, stop the game in some cases.
+    game.continue = true;
+
     // Background color.
     game.stage.background = 0xB91717;
     // get explosion audio
@@ -113,28 +117,6 @@
     obstacleGroup = game.add.group();
     explosionGroup = game.add.group();
     window.obstacleGroup = obstacleGroup;
-
-    // Letters of the level.
-    this.letterGroup = new LetterGroup(game, {map: [
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,'e', 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,'a', 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [3, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,'m', 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,'g', 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
-      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0]
-    ]});
 
     var floorTile, i, j;
     for (var xt = 2048; xt > 0; xt -= 35) {
@@ -179,6 +161,31 @@
     ]);
     this.cursors.jump = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
+    // Create Lives for this level.
+    player.livesGroup = new LivesGroup(game, {});
+
+    // Letters of the level.
+    this.letterGroup = new LetterGroup(game, {map: [
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,'e', 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,'a', 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [3, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,'m', 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,'g', 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0],
+      [0, 0,  0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0,  0, 0, 0,  0, 0, 0]
+    ]});
+
     // Robots Creation
     this.robots = robotClass(this);
   },
@@ -210,7 +217,10 @@
 
         // Collision between the player and a robot, game over!.. :(
         if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
-          Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
+          Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70 &&
+          game.continue) {
+          game.continue = false;
+          console.log(':O');
           killPlayer(player, true);
         }
       }
@@ -283,6 +293,8 @@
   function killPlayer(player, killedByRobot) {
     if(killedByRobot) {
       audioScream.play();
+      game.lives--;
+      player.livesGroup.drawLives();
     }
     setTimeout(function() {
       audioLevel1.restart();

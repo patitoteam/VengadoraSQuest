@@ -6,9 +6,13 @@
 
   var LetterGroup = function (game, options) {
     options = options || {};
+
     _game = game;
+
     this.element = game.add.group();
+
     this.map = options.map;
+
     this.letters = this.addLettersByMap();
   };
 
