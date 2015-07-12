@@ -208,7 +208,7 @@
         var explosions = [];
         obstacleGroup.forEach(function(tile) {
           if(!tile) return;
-          if(tile.key === 'robot') {
+          if(tile.key === 'robot' || tile.key === 'kid') {
             var x1 = tile.isoPosition.x;
             var y1 = tile.isoPosition.y;
             var x2 = e.x; var y2 = e.y;
@@ -216,10 +216,16 @@
             var dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
             if(dist <= 250) {
               kaboom = game.add.isoSprite(tile.isoPosition.x-100, tile.isoPosition.y-20, 0,'kaboom',explosionGroup);
-              kaboom.animations.add('kaboom', [1,2,3,4,5,6,7,8,9,10], 6, false);
+              kaboom.animations.add('kaboom', [1,2,3,4,5,6,7,8,9,10,11,12,13,14], 6, false);
               kaboom.animations.play('kaboom');
               explosions.push(kaboom);
-              tile.destroy();
+              if(tile.key === 'kid') {
+                setTimeout(function() {
+                  game.state.start('Level1');
+                }, 200);
+              } else {
+                tile.destroy();
+              }
             }
           }
         });
