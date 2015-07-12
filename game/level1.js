@@ -295,7 +295,6 @@
       audioScream.play();
       game.lives--;
       player.livesGroup.drawLives();
-      console.log(player.livesGroup);
     }
     setTimeout(function() {
       audioLevel1.restart();
