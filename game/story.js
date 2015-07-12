@@ -2,8 +2,11 @@
   var _game;
   var index = 0;
   var messages = [
-    'After a fucking war between humans and trolls...',
-    'a fucking wizard se paso de pendejo and stole nuestro lenguaje'
+    'After a war between humans and robots...',
+    'The robots defeat their masters,',
+    'and stole a very valuable thing..',
+    'The human language!!...',
+    'now your mission is to help Vengadora to recover it!'
   ];
 
   var text;

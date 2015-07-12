@@ -107,7 +107,7 @@
 
     if(!audioLevel1) {
       audioLevel1 = game.add.audio('level1_audio');
-      //audioLevel1.play();
+      audioLevel1.play();
     }
 
     // Physics.
