@@ -53,9 +53,9 @@
     game.load.image('wall13', 'assets/wall-l-bottom.png');
     game.load.image('bomb', 'assets/bomb.png');
     game.load.image('letter_a', 'assets/letters/a.png');
-    game.load.image('letter_e', 'assets/letters/a.png');
-    game.load.image('letter_g', 'assets/letters/a.png');
-    game.load.image('letter_m', 'assets/letters/a.png');
+    game.load.image('letter_e', 'assets/letters/e.png');
+    game.load.image('letter_g', 'assets/letters/g.png');
+    game.load.image('letter_m', 'assets/letters/m.png');
 
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
     game.load.spritesheet('kid', 'assets/girl.png', 130, 150);
