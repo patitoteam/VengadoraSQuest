@@ -205,6 +205,7 @@
       setTimeout(function() {
         theBomb.destroy();
         kaboom.destroy();
+        var explosions = [];
         obstacleGroup.forEach(function(tile) {
           if(!tile) return;
           if(tile.key === 'robot') {
@@ -214,10 +215,19 @@
 
             var dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
             if(dist <= 250) {
+              kaboom = game.add.isoSprite(tile.isoPosition.x-100, tile.isoPosition.y-20, 0,'kaboom',explosionGroup);
+              kaboom.animations.add('kaboom', [1,2,3,4,5,6,7,8,9,10], 6, false);
+              kaboom.animations.play('kaboom');
+              explosions.push(kaboom);
               tile.destroy();
             }
           }
         });
+        setTimeout(function() {
+          for(var i = 0; i < explosions.length; ++i) {
+            explosions[i].destroy();
+          }
+        }, 200);
       }, 200);
 
     }
