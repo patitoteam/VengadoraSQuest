@@ -3,6 +3,7 @@
 
   // Initial lives of the player.
   game.lives = 6;
+  game.letters = 0;
 
   game.state.add('InitScreen', BasicGame.InitScreen);
   game.state.add('Story', BasicGame.Story);

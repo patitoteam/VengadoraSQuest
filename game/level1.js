@@ -195,6 +195,11 @@
     // Show the veolocity of the player ;D #FORDEBUG
     //console.log(player.get().body.velocity.x + ' - ' + player.get().body.velocity.y + ' - ' + player.get().body.velocity.z);
 
+    // Win the level!..
+    if(game.letters === 5) {
+      alert('you win!');
+    }
+
     // Move the player at this speed.
     var speed = 500;
     player.move(this.cursors, speed);
