@@ -7,6 +7,7 @@
   game.state.add('Level1', BasicGame.Level1);
   game.state.add('Level2', BasicGame.Level2);
   game.state.add('Level2', BasicGame.Level2);
+  game.state.add('MiddleLevel1', BasicGame.MiddleLevel1);
 
-  game.state.start('InitScreen'); // :O
+  game.state.start('MiddleLevel1'); // :O
 }).call(document);
