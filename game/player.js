@@ -131,8 +131,8 @@ var animatePlayer = function (player, cursors)  {
   } else if(cursors.down.isDown && cursors.left.isUp && cursors.right.isUp) {
     player.animations.play(quiet + 'bottom');
   } else if (cursors.up.isDown && cursors.left.isUp && cursors.right.isUp) {
-    player.animations.play('up');
-  } else if(player.body.velocity.x >= 0 && player.body.velocity.y == 0) {
+    player.animations.play(quiet + 'up');
+  } else if(player.body.velocity.x >= 0 && player.body.velocity.y === 0) {
     player.scale.set(1,1);
     player.animations.play(quiet + 'bottom-right');
   } else if(player.body.velocity.x < 0 && player.body.velocity.y == 0) {

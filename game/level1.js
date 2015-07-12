@@ -7,6 +7,7 @@
     explosionGroup,
     player,
     theBomb,
+    audioLevel1,
     pip2;
 
   var map = [
@@ -58,6 +59,7 @@
     game.load.spritesheet('kaboom', 'assets/explode.png', 128, 128);
     // audio
     game.load.audio('pip2', ['assets/pip2.ogg']);
+    game.load.audio('level1_audio', ['assets/level1a.ogg']);
 
     game.time.advancedTiming = true;
 
@@ -83,6 +85,10 @@
     game.stage.background = 0xB91717;
     // get explosion audio
     pip2 = game.add.audio('pip2');
+    if(!audioLevel1) {
+      audioLevel1 = game.add.audio('level1_audio');
+      audioLevel1.play();
+    }
 
     // Physics.
     game.physics.isoArcade.gravity.setTo(0, 0, -1000);
@@ -181,7 +187,7 @@
         // Collision between the player and a robot, game over!.. :(
         if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
           Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
-          game.state.start('Level1'); // Restart the level.
+          killPlayer(player);
         }
       }
     });
@@ -216,23 +222,43 @@
       setTimeout(function() {
         theBomb.destroy();
         kaboom.destroy();
+        var explosions = [];
         obstacleGroup.forEach(function(tile) {
           if(!tile) return;
-          if(tile.key === 'robot') {
+          if(tile.key === 'robot' || tile.key === 'kid') {
             var x1 = tile.isoPosition.x;
             var y1 = tile.isoPosition.y;
             var x2 = e.x; var y2 = e.y;
 
             var dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
             if(dist <= 250) {
-              tile.destroy();
+              kaboom = game.add.isoSprite(tile.isoPosition.x-100, tile.isoPosition.y-20, 0,'kaboom',explosionGroup);
+              kaboom.animations.add('kaboom', [1,2,3,4,5,6,7,8,9,10,11,12,13,14], 6, false);
+              kaboom.animations.play('kaboom');
+              explosions.push(kaboom);
+              if(tile.key === 'kid') {
+                setTimeout(function() {
+                  killPlayer(player);
+                }, 200);
+              } else {
+                tile.destroy();
+              }
             }
           }
         });
+        setTimeout(function() {
+          for(var i = 0; i < explosions.length; ++i) {
+            explosions[i].destroy();
+          }
+        }, 200);
       }, 200);
 
     }
   }
 
-}).call(document);
+  function killPlayer(player) {
+    audioLevel1.restart();
+    game.state.start('Level1'); // :O
+  }
 
+}).call(document);
