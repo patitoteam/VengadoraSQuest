@@ -8,6 +8,10 @@
     player,
     theBomb,
     audioLevel1,
+    audioComplete,
+    audioGameover,
+    audioLetter,
+    audioScream,
     pip2;
 
   var map = [
@@ -63,6 +67,10 @@
     // audio
     game.load.audio('pip2', ['assets/pip2.ogg']);
     game.load.audio('level1_audio', ['assets/level1a.ogg']);
+    game.load.audio('gameover', ['assets/gameover.ogg']);
+    game.load.audio('complete', ['assets/complete.ogg']);
+    game.load.audio('letter', ['assets/letter.ogg']);
+    game.load.audio('scream', ['assets/scream.ogg']);
 
     game.time.advancedTiming = true;
 
@@ -88,6 +96,11 @@
     game.stage.background = 0xB91717;
     // get explosion audio
     pip2 = game.add.audio('pip2');
+    audioGameover = game.add.audio('gameover');
+    audioComplete = game.add.audio('complete');
+    audioLetter = game.add.audio('letter');
+    audioScream = game.add.audio('scream');
+
     if(!audioLevel1) {
       audioLevel1 = game.add.audio('level1_audio');
       //audioLevel1.play();
@@ -183,6 +196,16 @@
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
 
+    // Iterate the objects of the Letters Group.
+    this.lettersGroup.forEach( function (letter) {
+
+      // Collision between the player and a letter.
+      if(Math.abs(player.get().isoPosition.x - letter.isoPosition.x) < 70 &&
+        Math.abs(player.get().isoPosition.y - letter.isoPosition.y) < 70) {
+        takeLetter(letter);
+      }
+    });
+
     // Animate the player.
     animatePlayer(player.get(), this.cursors);
 
@@ -198,7 +221,7 @@
         // Collision between the player and a robot, game over!.. :(
         if(Math.abs(player.get().isoPosition.x - obstacle.isoPosition.x) < 70 &&
           Math.abs(player.get().isoPosition.y - obstacle.isoPosition.y) < 70) {
-          killPlayer(player);
+          killPlayer(player, true);
         }
       }
     });
@@ -267,9 +290,19 @@
     }
   }
 
-  function killPlayer(player) {
-    audioLevel1.restart();
-    game.state.start('Level1'); // :O
+  function killPlayer(player, killedByRobot) {
+    if(killedByRobot) {
+      audioScream.play();
+    }
+    setTimeout(function() {
+      audioLevel1.restart();
+      game.state.start('Level1');
+    }, 100);
+  }
+
+  function takeLetter(letter) {
+    audioLetter.play();
+    letter.kill();
   }
 
 }).call(document);
