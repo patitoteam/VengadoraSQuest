@@ -196,16 +196,6 @@
     game.physics.isoArcade.collide(obstacleGroup);
     game.iso.topologicalSort(obstacleGroup);
 
-    // Iterate the objects of the Letters Group.
-    this.lettersGroup.forEach( function (letter) {
-
-      // Collision between the player and a letter.
-      if(Math.abs(player.get().isoPosition.x - letter.isoPosition.x) < 70 &&
-        Math.abs(player.get().isoPosition.y - letter.isoPosition.y) < 70) {
-        takeLetter(letter);
-      }
-    });
-
     // Animate the player.
     animatePlayer(player.get(), this.cursors);
 
