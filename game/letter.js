@@ -23,7 +23,8 @@
       if(Math.abs(_game.player.get().isoPosition.x - this.element.isoPosition.x) < 70 &&
         Math.abs(_game.player.get().isoPosition.y - this.element.isoPosition.y) < 70) {
         this.element.kill(); // Kill the letter!.. :O
-        game.letters++;
+        _game.letters++;
+        //console.log('letrita!');
       }
     }.bind(this);
   };
