@@ -4,6 +4,7 @@
   var isoGroup,
     groundGroup,
     obstacleGroup,
+    explosionGroup,
     player,
     theBomb,
     pip2;
@@ -53,7 +54,8 @@
     // sprites
     game.load.spritesheet('robot', 'assets/robot.png', 120, 80);
     game.load.spritesheet('kid', 'assets/kid.png', 130, 150);
-    game.load.spritesheet('sonic-bomb', 'assets/sonic-bomb.png', 130, 65);
+    game.load.spritesheet('sonic-bomb', 'assets/sonic-bomb.png', 130, 116);
+    game.load.spritesheet('kaboom', 'assets/explode.png', 128, 128);
     // audio
     game.load.audio('pip2', ['assets/pip2.ogg']);
 
@@ -87,6 +89,7 @@
 
     groundGroup = game.add.group();
     obstacleGroup = game.add.group();
+    explosionGroup = game.add.group();
     window.obstacleGroup = obstacleGroup;
 
     // Letters in the level.
@@ -183,29 +186,40 @@
 
   function onBombMounted(e) {
     console.log('mounted');
-    theBomb = game.add.isoSprite(e.row*65, e.col*65, 0, 'bomb', 0, groundGroup);
+    theBomb = game.add.isoSprite(e.row*65, e.col*65, 0, 'sonic-bomb', 0, groundGroup);
     theBomb.anchor.set(0.5);
+
+    theBomb.animations.add('bomb-sequence', [1,2,3,4], 6, true);
+    theBomb.animations.play('bomb-sequence');
     pip2.play();
   }
 
   function onExplosion(e) {
     if(theBomb) {
       console.log('boom!!');
-      theBomb.kill();
-      obstacleGroup.forEach(function(tile) {
-        if(!tile) return;
-        if(tile.key === 'robot') {
-          var x1 = tile.isoPosition.x;
-          var y1 = tile.isoPosition.y;
-          var x2 = e.x; var y2 = e.y;
+      var kaboom = game.add.isoSprite(theBomb.isoPosition.x-100, theBomb.isoPosition.y-20, 0,'kaboom',explosionGroup);
+      kaboom.animations.add('kaboom', [1,2,3,4,5,6,7,8,9,10], 6, false);
+      kaboom.animations.play('kaboom');
+      setTimeout(function() {
+        theBomb.destroy();
+        kaboom.destroy();
+        obstacleGroup.forEach(function(tile) {
+          if(!tile) return;
+          if(tile.key === 'robot') {
+            var x1 = tile.isoPosition.x;
+            var y1 = tile.isoPosition.y;
+            var x2 = e.x; var y2 = e.y;
 
-          var dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-          if(dist <= 250) {
-            tile.destroy();
+            var dist = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+            if(dist <= 250) {
+              tile.destroy();
+            }
           }
-        }
-      });
+        });
+      }, 1000);
+
     }
   }
 
 }).call(document);
+
