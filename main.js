@@ -5,6 +5,8 @@
   game.lives = 6;
 
   game.state.add('InitScreen', BasicGame.InitScreen);
+  game.state.add('Story', BasicGame.Story);
+  game.state.add('Rankings', BasicGame.Rankings);
   game.state.add('Level1', BasicGame.Level1);
   game.state.add('Level2', BasicGame.Level2);
   game.state.add('Level2', BasicGame.Level2);
